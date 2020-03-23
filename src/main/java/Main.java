@@ -11,7 +11,8 @@ public class Main {
 
     public static void main(String[] args) throws Exception{
         String output = (new Main()).readRawDataToString();
+        ItemParser items = new ItemParser();
+        System.out.println(items.parseList(output));
         System.out.println(output);
-
     }
 }
