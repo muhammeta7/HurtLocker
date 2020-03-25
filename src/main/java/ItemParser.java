@@ -1,15 +1,19 @@
-import java.util.ArrayList;
-import java.util.List;
+import com.sun.javafx.collections.MappingChange;
+
+import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class ItemParser {
 
-    private int exceptionCount = 0;
-    private Pattern nameAndPrice = Pattern.compile("^(?i)name:(.*?);((?i)price:(.*?);)");
+    int exceptionCount = 0;
+    private Map<String, Item> itemMap;
 
+    public ItemParser(){
+        this.itemMap = new HashMap<>();
+    }
 
-    // Return string of lists seperated by ##
+    // Return Lists of Strings seperated by ##
     public List<String> seperateItems(String text){
         List<String> items = new ArrayList<>();
         Pattern pattern = Pattern.compile("(.*?)##");
@@ -17,64 +21,47 @@ public class ItemParser {
         while(matcher.find()){
             items.add(matcher.group(0));
         }
-
         return items;
     }
 
-    // Turn String Into Map
+    // Map String to Items
+    public Map<String, Item> createItemMap(List<String> itemsList){
+        Map<String, Item> itemMap = new LinkedHashMap<>();
+        for(String s : itemsList){
+            Pattern pattern = Pattern.compile("^(?i)name:(.*?);((?i)price:(.*?);)");
+            Matcher matcher = pattern.matcher(s);
+            while(matcher.find()){
+                String name;
+                double price;
+                try {
+                    name = convertZeroToO(matcher.group(1).toLowerCase());
+                    price = Double.parseDouble(matcher.group(3));
+                    if(name.equals("")){
+                        throw new Exception();
+                    }
+                }catch (Exception e){
+                    exceptionCount++;
+                    continue;
+                }
 
+                if(!itemMap.containsKey(name)){
+                    itemMap.put(name, new Item(name));
+                }
 
+                itemMap.get(name).addPrice(price);
+            }
+        }
 
+        return itemMap;
+    }
 
+    public String convertZeroToO(String name){
+        Pattern pattern = Pattern.compile("0");
+        return pattern.matcher(name).replaceAll("o");
+    }
 
-
-
-
-//    public ItemParser() {
-//        this.exceptionCount = 0;
-//        this.items = new ArrayList<>();
-//        Pattern.compile("[Nn][Aa][Mm][Ee]:([a-zA-Z])*");
-//        Pattern.compile("[Pp][Rr][Ii][Cc][Ee]:(\\d+\\.\\d+)*");
-//        Pattern.compile("type[@|^|*|:|%]([A-Za-z]+)[;|/^|/!|%|*|@]");
-//        Pattern.compile("expiration[@|^|*|:|%](\\\\d+/\\\\d+/\\\\d{4})");
-//    }
-
-//    public Item parseEachItem(String item) throws ItemParseException{
-//        return new Item(findItemField(item, namePattern),
-//                new Double(findItemField(item, pricePattern)),
-//                findItemField(item, typePattern),
-//                findItemField(item, expirationPattern));
-//    }
-
-//    public List<Item> parseList(String value){
-//        List<Item>  items = new ArrayList<>();
-//        for(String s : value.split("##")){
-//            try{
-//                items.add(parseEachItem(s));
-//            } catch (ItemParseException e) {
-//                System.out.println("Invalid item");
-//                exceptionCount++;
-//            }
-//        }
-//        return items;
-//    }
-
-//    public Matcher getMatcher(String item, Pattern pattern){
-//        return pattern.matcher(item);
-//    }
-//
-//    public String findItemField(String item, Pattern pattern) throws ItemParseException {
-//        Matcher matcher = getMatcher(item, pattern);
-//        if(matcher.find()){
-//            return matcher.group(0).toLowerCase();
-//        }
-//        throw new ItemParseException();
-//    }
-
-//    public int getExceptionCount() {
-//        return exceptionCount;
-//    }
-
-
+    public int getExceptionCount() {
+        return exceptionCount;
+    }
 }
 

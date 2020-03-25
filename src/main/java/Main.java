@@ -1,5 +1,7 @@
 import org.apache.commons.io.IOUtils;
 import java.io.IOException;
+import java.util.List;
+import java.util.Map;
 
 public class Main {
 
@@ -12,7 +14,12 @@ public class Main {
     public static void main(String[] args) throws Exception{
         String output = (new Main()).readRawDataToString();
         ItemParser items = new ItemParser();
-        System.out.println(items.seperateItems(output));
+        List<String> parsed = items.seperateItems(output);
+        Map<String, Item> map= items.createItemMap(parsed);
+        for (Map.Entry<String, Item> e :map.entrySet())
+            System.out.println(e.getValue());
+
+        System.out.println("Errors         \t \t seen: "+ items.getExceptionCount() +" times");
 
     }
 }
