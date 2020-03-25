@@ -23,10 +23,6 @@ public class Item {
         }
     }
 
-    public Map<Double, Integer> getPrices() {
-        return prices;
-    }
-
     public Integer numberOfOccurances(){
         int total = 0;
         for(Map.Entry<Double, Integer> entry : prices.entrySet()){
@@ -35,7 +31,7 @@ public class Item {
         return total;
     }
 
-    public String printTimes(Integer num){
+    public String printTimeOrTimes(Integer num){
         return num > 1 ? "times" : "time";
     }
 
@@ -43,10 +39,10 @@ public class Item {
     public String toString(){
         int counter = 0;
         StringBuilder sb = new StringBuilder();
-        sb.append(String.format("name:%8s\t\t seen: %d %s\n",getName(), numberOfOccurances(), printTimes(numberOfOccurances())));
+        sb.append(String.format("name:%8s\t\t seen: %d %s\n",getName(), numberOfOccurances(), printTimeOrTimes(numberOfOccurances())));
         sb.append("============= \t \t =============\n");
         for (Map.Entry<Double,Integer> e:prices.entrySet()) {
-            sb.append(String.format("Price:%7.2f\t\t seen: %d %s\n",e.getKey(), e.getValue(), printTimes(e.getValue())));
+            sb.append(String.format("Price:%7.2f\t\t seen: %d %s\n",e.getKey(), e.getValue(), printTimeOrTimes(e.getValue())));
             if(counter == 0)
                 sb.append("-------------     \t -------------\n");
 

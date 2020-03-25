@@ -34,7 +34,7 @@ public class ItemParser {
                 String name;
                 double price;
                 try {
-                    name = convertZeroToO(matcher.group(1).toLowerCase());
+                    name = formatName(convertZeroToO(matcher.group(1).toLowerCase()));
                     price = Double.parseDouble(matcher.group(3));
                     if(name.equals("")){
                         throw new Exception();
@@ -53,6 +53,22 @@ public class ItemParser {
         }
 
         return itemMap;
+    }
+
+    public static String formatName(String string) {
+        char[] charArray = string.toCharArray();
+
+        for (int i = 1; i<string.length(); i++) {
+            if (charArray[i] >= 65 && charArray[i] <= 90) {
+                charArray[i] += 32;
+            }
+        }
+
+        if (charArray[0] >= 97 && charArray[0] <= 122) {
+            charArray[0] -= 32;
+        }
+        return new String(charArray);
+
     }
 
     public String convertZeroToO(String name){
