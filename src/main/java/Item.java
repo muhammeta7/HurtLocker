@@ -15,7 +15,7 @@ public class Item {
         return name;
     }
 
-    public void addPrice(Double key){
+    public void incrementPrice(Double key){
         if(prices.containsKey(key)){
             prices.replace(key, prices.get(key)+1);
         } else {

@@ -48,7 +48,7 @@ public class ItemParser {
                     itemMap.put(name, new Item(name));
                 }
 
-                itemMap.get(name).addPrice(price);
+                itemMap.get(name).incrementPrice(price);
             }
         }
 
