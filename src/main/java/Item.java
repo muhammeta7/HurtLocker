@@ -23,7 +23,7 @@ public class Item {
         }
     }
 
-    public Integer numberOfOccurances(){
+    public Integer numberOfOccurrences(){
         int total = 0;
         for(Map.Entry<Double, Integer> entry : prices.entrySet()){
             total += entry.getValue();
@@ -39,12 +39,12 @@ public class Item {
     public String toString(){
         int counter = 0;
         StringBuilder sb = new StringBuilder();
-        sb.append(String.format("name:%8s%8sseen: %d %s\n", getName()," ", numberOfOccurances(), printTimeOrTimes(numberOfOccurances())));
-        sb.append("=============        =============\n");
+        sb.append(String.format("name:%8s%8sseen: %d %s\n", getName()," ", numberOfOccurrences(), printTimeOrTimes(numberOfOccurrences())));
+        sb.append(String.format("=============%8s=============\n", " "));
         for (Map.Entry<Double,Integer> entry : prices.entrySet()) {
             sb.append(String.format("Price:%7.2f%8sseen: %d %s\n", entry.getKey()," ", entry.getValue(), printTimeOrTimes(entry.getValue())));
             if(counter == 0)
-                sb.append("-------------        -------------\n");
+                sb.append(String.format("-------------%8s-------------\n", " "));
 
             counter++;
         }
