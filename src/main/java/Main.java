@@ -16,9 +16,9 @@ public class Main {
         ItemParser items = new ItemParser();
         List<String> parsed = items.seperateItems(output);
         Map<String, Item> map= items.createItemMap(parsed);
-        for (Map.Entry<String, Item> e :map.entrySet()){
-            System.out.println(e.getValue());
+        for (Map.Entry<String, Item> entry : map.entrySet()){
+            System.out.println(entry.getValue());
         }
-        System.out.println("Errors         \t \t seen: "+ items.getExceptionCount() +" times");
+        System.out.println("Errors               seen: "+ items.getExceptionCount() +" times");
     }
 }

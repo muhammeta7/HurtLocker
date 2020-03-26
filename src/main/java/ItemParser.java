@@ -79,5 +79,6 @@ public class ItemParser {
     public int getExceptionCount() {
         return exceptionCount;
     }
+
 }
 
